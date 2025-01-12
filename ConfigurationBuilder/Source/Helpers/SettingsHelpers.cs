@@ -2,6 +2,7 @@
 using System.Reflection;
 using Source.Extensions;
 using Source.Models;
+using Source.Models.FileModels;
 using Source.Services;
 
 namespace Source.Helpers;
@@ -13,7 +14,7 @@ public static class SettingsHelpers
         builder.Configuration
             .ProcessJson(fileSystem.ReadFile("Inputs/settings.json"))
             .ProcessEmbeddedResource("Inputs.embedded-settings.json", Assembly.GetEntryAssembly())
-            .ProcessEnvironmentVariables(new EnvironmentService());
+            .ProcessEnvironmentVariables<CheeseSettings>(new EnvironmentService());
         
         builder.BindSettings();
     }

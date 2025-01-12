@@ -35,16 +35,17 @@ public static class ConfigurationBuilderExtensions
         return builder;
     }
     
-    public static IConfigurationBuilder ProcessEnvironmentVariables(this IConfigurationBuilder builder, IEnvironmentService envService)
+    public static IConfigurationBuilder ProcessEnvironmentVariables<T>(this IConfigurationBuilder builder, IEnvironmentService envService)
+        where T : IFileModel
     {
         var envVars = envService.GetEnvironmentVariables();
         
-        foreach (var entry in envService.Filter(envVars, [nameof(Settings)]))
+        foreach (var entry in envService.Filter(envVars, []))
         {
             envVars.Add(entry.Key, entry.Value);
         }
     
-        var settings = envService.Parse<Settings>(envVars, typeof(ISettings), null);
+        var settings = envService.Parse<T>(envVars, typeof(ISettings), null);
         
         var json = JsonSerializer.Serialize(settings, JsonHelpers.JsonSerializerOptions);
         

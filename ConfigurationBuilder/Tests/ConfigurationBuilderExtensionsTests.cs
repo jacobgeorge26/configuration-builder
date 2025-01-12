@@ -20,7 +20,7 @@ public class ConfigurationTests
     private readonly Mock<Assembly> _assemblyMock;
     private readonly Mock<IEnvironmentService> _environmentServiceMock;
 
-    private readonly Settings _settings;
+    private readonly CheeseSettings _settings;
 
     public ConfigurationTests()
     {
@@ -30,7 +30,7 @@ public class ConfigurationTests
         
         var basePath = fileSystem.Directory.CreateDirectory(Path.Combine("root")).FullName;
         
-        _settings = new Settings
+        _settings = new CheeseSettings
         {
             Cheese = new Cheese
             {
@@ -82,17 +82,17 @@ public class ConfigurationTests
     {
         var envVars = new Dictionary<string, string?>
         {
-            {$"{nameof(Settings.Cheese)}__{nameof(Settings.Cheese.Name)}", _settings.Cheese?.Name}
+            {$"{nameof(CheeseSettings.Cheese)}__{nameof(CheeseSettings.Cheese.Name)}", _settings.Cheese?.Name}
         };
         _environmentServiceMock.Setup(x => x.GetEnvironmentVariables()).Returns(envVars);
         
         _environmentServiceMock.Setup(x => x.Filter(It.IsAny<Dictionary<string, string?>>(), It.IsAny<string[]>()))
             .Returns((Dictionary<string, string?> vars, string[] filters) => new EnvironmentService().Filter(vars, filters));
         
-        _environmentServiceMock.Setup(x => x.Parse<Settings>(It.IsAny<Dictionary<string, string?>>(), typeof(ISettings), It.IsAny<string?>()))
-            .Returns((Dictionary<string, string?> vars, Type type, string filter) => new EnvironmentService().Parse<Settings>(vars, type, filter));
+        _environmentServiceMock.Setup(x => x.Parse<CheeseSettings>(It.IsAny<Dictionary<string, string?>>(), typeof(ISettings), It.IsAny<string?>()))
+            .Returns((Dictionary<string, string?> vars, Type type, string filter) => new EnvironmentService().Parse<CheeseSettings>(vars, type, filter));
         
-        _builder.ProcessEnvironmentVariables(_environmentServiceMock.Object);
+        _builder.ProcessEnvironmentVariables<CheeseSettings>(_environmentServiceMock.Object);
         var configuration = _builder.Build();
         
         var result = new Cheese();
