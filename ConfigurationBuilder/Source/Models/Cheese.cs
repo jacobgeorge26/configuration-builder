@@ -1,10 +1,16 @@
-﻿namespace Source.Models;
+﻿using Source.Models.Enums;
 
-public class Cheese
+namespace Source.Models;
+
+public class Cheese : ISettings
 {
-    public string Name { get; set; } = null!;
+    public string Name { get; init; } = null!;
     
-    public decimal Price { get; set; }
+    public decimal Price { get; init; }
     
-    public string? Description { get; set; }
+    public List<string> Flavours { get; init; } = [];
+    
+    public Milk? Milk { get; init; }
+    
+    public Farm? Origin { get; init; }
 }

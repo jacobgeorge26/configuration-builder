@@ -6,9 +6,10 @@ namespace Source.Helpers;
 
 public static class SettingsHelpers
 {
-    public static void LoadSettings(this IHostApplicationBuilder builder)
+    public static void LoadSettings(this IHostApplicationBuilder builder, IFileSystem fileSystem)
     {
-        builder.Configuration.ProcessJsonFile("appsettings.json", new FileSystem());
+        builder.Configuration
+            .ProcessJson(fileSystem.ReadFile("appsettings.json"));
         
         builder.BindSettings();
     }

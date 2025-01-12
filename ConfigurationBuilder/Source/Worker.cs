@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Source.Models;
 
-namespace Source.Services;
+namespace Source;
 
 public class Worker(IHostApplicationLifetime lifeTime, IOptions<Cheese> cheeseSettings) : IHostedService {
     public async Task StartAsync(CancellationToken token)

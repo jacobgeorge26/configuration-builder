@@ -1,26 +1,19 @@
-﻿using System.IO.Abstractions;
+﻿using System.Reflection;
 using System.Text;
 
 namespace Source.Extensions;
 
 public static class ConfigurationBuilderExtensions
 {
-    
-    public static IConfigurationBuilder ProcessJsonFile(this IConfigurationBuilder builder, string path, IFileSystem fileSystem)
+    public static IConfigurationBuilder ProcessJson(this IConfigurationBuilder builder, string? json)
     {
-        var json = fileSystem.ReadFile(path);
-        builder.AddJson(json);
-        return builder;
-    }
-    
-    public static IConfigurationBuilder AddJson(this IConfigurationBuilder builder, string? rawJson)
-    {
-        if(string.IsNullOrWhiteSpace(rawJson))
+        if(string.IsNullOrWhiteSpace(json))
             return builder;
         
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes(rawJson));
-        builder.AddJsonStream(stream);
+        builder.AddJsonStream(CreateJsonStream(json));
         
         return builder;
     }
+
+    private static MemoryStream CreateJsonStream(string json) => new(Encoding.UTF8.GetBytes(json));
 }

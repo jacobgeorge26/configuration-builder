@@ -1,5 +1,5 @@
-﻿using Source.Helpers;
-using Source.Services;
+﻿using System.IO.Abstractions;
+using Source.Helpers;
 
 namespace Source;
 
@@ -9,7 +9,7 @@ sealed class Program
     {
         var builder = Host.CreateApplicationBuilder(args);
         
-        builder.LoadSettings();
+        builder.LoadSettings(new FileSystem());
 
         builder.Services.AddHostedService<Worker>();
 
