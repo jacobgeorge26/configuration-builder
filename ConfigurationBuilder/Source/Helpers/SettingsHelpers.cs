@@ -1,4 +1,5 @@
 ﻿using System.IO.Abstractions;
+using System.Reflection;
 using Source.Extensions;
 using Source.Models;
 
@@ -9,7 +10,8 @@ public static class SettingsHelpers
     public static void LoadSettings(this IHostApplicationBuilder builder, IFileSystem fileSystem)
     {
         builder.Configuration
-            .ProcessJson(fileSystem.ReadFile("appsettings.json"));
+            .ProcessJson(fileSystem.ReadFile("Inputs/settings.json"))
+            .ProcessEmbeddedResource("Inputs.embedded-settings.json", Assembly.GetEntryAssembly());
         
         builder.BindSettings();
     }

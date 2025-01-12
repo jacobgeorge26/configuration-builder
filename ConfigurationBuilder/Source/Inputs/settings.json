@@ -1,6 +1,12 @@
 {
   "Cheese": {
     "Name": "Cheddar",
-    "Price": 4.99
+    "Price": 4.99,
+    "Flavours": ["Creamy", "Buttery"],
+    "Milk": "Cow",
+    "Origin": {
+      "Name": "Snowdonia",
+        "Country": "Wales"
+    }
   }
 }

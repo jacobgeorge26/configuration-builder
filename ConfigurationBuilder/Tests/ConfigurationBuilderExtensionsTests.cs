@@ -56,4 +56,24 @@ public class ConfigurationTests
         configuration.GetSection(nameof(Cheese)).Bind(result);
         Assert.Equal(_settings.Cheese?.Name, result.Name);
     }
+    
+    [Fact]
+    public void ProcessEmbeddedResource_LoadsValues()
+    {
+        const string fileName = "embedded-settings.json", assemblyName = "Tests";
+        const string resourceName = $"{assemblyName}.{fileName}";
+
+        var json = JsonSerializer.Serialize(_settings);
+        var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+
+        _assemblyMock.Setup(x => x.GetName()).Returns(new AssemblyName(assemblyName));
+        _assemblyMock.Setup(x => x.GetManifestResourceStream(resourceName)).Returns(stream);
+
+         _builder.ProcessEmbeddedResource(fileName, _assemblyMock.Object);
+         var configuration = _builder.Build();
+            
+        var result = new Cheese();
+        configuration.GetSection(nameof(Cheese)).Bind(result);
+        Assert.Equal(_settings.Cheese?.Name, result.Name);
+    }
 }
