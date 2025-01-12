@@ -76,4 +76,27 @@ public class ConfigurationTests
         configuration.GetSection(nameof(Cheese)).Bind(result);
         Assert.Equal(_settings.Cheese?.Name, result.Name);
     }
+    
+    [Fact]
+    public void ProcessEnvironmentVariables_LoadsValues()
+    {
+        var envVars = new Dictionary<string, string?>
+        {
+            {$"{nameof(Settings.Cheese)}__{nameof(Settings.Cheese.Name)}", _settings.Cheese?.Name}
+        };
+        _environmentServiceMock.Setup(x => x.GetEnvironmentVariables()).Returns(envVars);
+        
+        _environmentServiceMock.Setup(x => x.Filter(It.IsAny<Dictionary<string, string?>>(), It.IsAny<string[]>()))
+            .Returns((Dictionary<string, string?> vars, string[] filters) => new EnvironmentService().Filter(vars, filters));
+        
+        _environmentServiceMock.Setup(x => x.Parse<Settings>(It.IsAny<Dictionary<string, string?>>(), typeof(ISettings), It.IsAny<string?>()))
+            .Returns((Dictionary<string, string?> vars, Type type, string filter) => new EnvironmentService().Parse<Settings>(vars, type, filter));
+        
+        _builder.ProcessEnvironmentVariables(_environmentServiceMock.Object);
+        var configuration = _builder.Build();
+        
+        var result = new Cheese();
+        configuration.GetSection(nameof(Cheese)).Bind(result);
+        Assert.Equal(_settings.Cheese?.Name, result.Name);
+    }
 }

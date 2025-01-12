@@ -1,5 +1,10 @@
 ﻿using System.Reflection;
 using System.Text;
+using System.Text.Json;
+using Source.Helpers;
+using Source.Models;
+using Source.Models.FileModels;
+using Source.Services;
 
 namespace Source.Extensions;
 
@@ -29,6 +34,25 @@ public static class ConfigurationBuilderExtensions
         
         return builder;
     }
+    
+    public static IConfigurationBuilder ProcessEnvironmentVariables(this IConfigurationBuilder builder, IEnvironmentService envService)
+    {
+        var envVars = envService.GetEnvironmentVariables();
+        
+        foreach (var entry in envService.Filter(envVars, [nameof(Settings)]))
+        {
+            envVars.Add(entry.Key, entry.Value);
+        }
+    
+        var settings = envService.Parse<Settings>(envVars, typeof(ISettings), null);
+        
+        var json = JsonSerializer.Serialize(settings, JsonHelpers.JsonSerializerOptions);
+        
+        builder.AddJsonStream(CreateJsonStream(json));
+        
+        return builder;
+    }
+
     private static MemoryStream CreateJsonStream(string json) => new(Encoding.UTF8.GetBytes(json));
     
     private static string? GetJsonFromEmbeddedResource(string fileName, Assembly? assembly)
