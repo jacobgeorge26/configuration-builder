@@ -1,8 +1,13 @@
-﻿namespace Source.Services;
+﻿using Microsoft.Extensions.Options;
+using Source.Models;
 
-public class Worker(IHostApplicationLifetime lifeTime) : IHostedService {
+namespace Source.Services;
+
+public class Worker(IHostApplicationLifetime lifeTime, IOptions<Cheese> cheeseSettings) : IHostedService {
     public async Task StartAsync(CancellationToken token)
     {
+        Console.WriteLine($"Cheese name: {cheeseSettings.Value.Name}");
+
         await StopAsync(token);
     }
 
