@@ -1,4 +1,4 @@
-﻿namespace Source.Models;
+﻿namespace Source.Models.CheeseModels;
 
 public class Farm : ISettings
 {

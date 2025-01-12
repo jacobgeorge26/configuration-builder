@@ -7,6 +7,7 @@ using Moq;
 using Source.Extensions;
 using Source.Helpers;
 using Source.Models;
+using Source.Models.CheeseModels;
 using Source.Models.FileModels;
 using Source.Services;
 using Xunit;

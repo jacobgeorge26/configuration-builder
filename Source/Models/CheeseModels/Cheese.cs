@@ -1,6 +1,6 @@
 ﻿using Source.Models.Enums;
 
-namespace Source.Models;
+namespace Source.Models.CheeseModels;
 
 public class Cheese : ISettings
 {
