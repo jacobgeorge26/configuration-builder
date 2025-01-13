@@ -13,7 +13,7 @@ public class Cheese : ISettings, IOverridable<Cheese>
     
     public Milk? Milk { get; set; }
     
-    public List<Flavour>? Flavours { get; set; }
+    public List<string>? Flavours { get; set; }
 
     public Farm? Origin { get; set; }
     
