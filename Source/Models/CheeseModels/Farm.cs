@@ -1,8 +1,31 @@
-﻿namespace Source.Models.CheeseModels;
+﻿using System.Text.Json;
+using Source.Helpers;
+using Source.Models.Interfaces;
 
-public class Farm : ISettings
+namespace Source.Models.CheeseModels;
+
+public class Farm : ISettings, IOverridable<Farm>
 {
-    public string? Name { get; init; } = null!;
+    public string? Name { get; set; }
 
-    public string Location { get; init; } = null!;
+    public string? Location { get; set; }
+
+    public Farm OverrideFromJson(string? json)
+    {
+        if(string.IsNullOrWhiteSpace(json))
+            return this;
+        
+        var newSettings = JsonSerializer.Deserialize<Farm>(json, JsonHelpers.JsonSerializerOptions);
+        return Override(newSettings);
+    }
+
+    public Farm Override(Farm? newSettings)
+    {
+        if(newSettings == null)
+            return this;
+        
+        Name = newSettings.Name ?? Name;
+        Location = newSettings.Location ?? Location;
+        return this;
+    }
 }

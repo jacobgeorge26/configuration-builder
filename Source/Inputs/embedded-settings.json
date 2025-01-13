@@ -2,10 +2,11 @@
   "Cheese": {
     "Name": "Montagnolo Affine",
     "Price": 2.49,
-    "Flavours": ["Creamy", "Mild"],
-    "Milk": 0,
+    "Flavours": [
+      {"Description": "Creamy"}
+    ],
     "Origin": {
-      "Country": "Germany",
+      "Location": "Germany",
       "Name": ""
     }
   }

@@ -2,11 +2,13 @@
   "Cheese": {
     "Name": "Cheddar",
     "Price": 4.99,
-    "Flavours": ["Creamy", "Buttery"],
-    "Milk": "Cow",
+    "Flavours": [
+      {"Description": "Mature"},
+      {"Description": "Extra Mature"}
+    ],
     "Origin": {
       "Name": "Snowdonia",
-        "Country": "Wales"
+      "Location": "Wales"
     }
   }
 }

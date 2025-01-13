@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using Source.Models;
 using Source.Models.CheeseModels;
 
 namespace Source;
@@ -12,7 +11,8 @@ public class Worker(IHostApplicationLifetime lifeTime, IOptions<Cheese> cheeseSe
         Console.WriteLine($"Name: {cheeseSettings.Value.Name}");
         Console.WriteLine($"Price: {cheeseSettings.Value.Price}");
         Console.WriteLine($"Milk: {cheeseSettings.Value.Milk}");
-        Console.WriteLine($"Flavours: {string.Join(", ", cheeseSettings.Value.Flavours)}");
+        var flavours = cheeseSettings.Value.Flavours?.Select(x => x.Description) ?? new List<string>();
+        Console.WriteLine($"Flavours: {string.Join(", ", flavours)}");
         Console.WriteLine($"Origin location: {cheeseSettings.Value.Origin?.Location}");
         Console.WriteLine($"Origin farm: {cheeseSettings.Value.Origin?.Name}");
         Console.WriteLine("---------------");

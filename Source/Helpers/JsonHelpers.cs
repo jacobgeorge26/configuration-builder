@@ -5,7 +5,7 @@ namespace Source.Helpers;
 
 public static class JsonHelpers
 {
-    public static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    public static JsonSerializerOptions JsonSerializerOptions => new()
     {
         PropertyNameCaseInsensitive = true,
         AllowTrailingCommas = true,

@@ -1,5 +1,5 @@
 ﻿using System.IO.Abstractions;
-using Source.Helpers;
+using Source.Extensions;
 
 namespace Source;
 
@@ -10,6 +10,8 @@ sealed class Program
         var builder = Host.CreateApplicationBuilder(args);
         
         builder.LoadSettings(new FileSystem());
+        
+        builder.Services.AddScoped<IConfiguration>(_ => builder.Configuration);
 
         builder.Services.AddHostedService<Worker>();
 
