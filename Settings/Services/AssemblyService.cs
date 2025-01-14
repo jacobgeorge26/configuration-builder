@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using Common.Services.Interfaces;
+using SettingsBuilder.Services.Interfaces;
 
-namespace Common.Services;
+namespace SettingsBuilder.Services;
 
 public class AssemblyService : IAssemblyService
 {

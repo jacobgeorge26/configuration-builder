@@ -1,3 +1,3 @@
-﻿namespace Common.Models;
+﻿namespace SettingsBuilder.Models;
 
 public interface ISettings { }

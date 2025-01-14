@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Common.Services.Interfaces;
+namespace SettingsBuilder.Services.Interfaces;
 
 public interface IAssemblyService
 {

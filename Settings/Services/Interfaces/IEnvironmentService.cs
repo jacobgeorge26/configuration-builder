@@ -1,4 +1,4 @@
-﻿namespace Common.Services.Interfaces;
+﻿namespace SettingsBuilder.Services.Interfaces;
 
 public interface IEnvironmentService
 {

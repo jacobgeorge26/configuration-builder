@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using Common.Services.Interfaces;
+using SettingsBuilder.Services.Interfaces;
 
-namespace Common.Services;
+namespace SettingsBuilder.Services;
 
 public class EnvironmentService : IEnvironmentService
 {

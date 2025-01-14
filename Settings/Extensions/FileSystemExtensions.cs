@@ -1,6 +1,6 @@
 ﻿using System.IO.Abstractions;
 
-namespace Common.Extensions;
+namespace SettingsBuilder.Extensions;
 
 public static class FileSystemExtensions
 {

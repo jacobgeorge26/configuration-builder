@@ -1,9 +1,9 @@
 ﻿using System.IO.Abstractions.TestingHelpers;
 using System.Text.Json;
-using Common.Models;
-using Common.Services.Interfaces;
 using Moq;
 using SettingsBuilder.Models;
+using SettingsBuilder.Services.Interfaces;
+using SettingsBuilder.SettingsBuilder;
 
 namespace SettingsBuilder.Tests.TestHelpers;
 

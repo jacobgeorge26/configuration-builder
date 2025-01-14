@@ -1,4 +1,4 @@
-﻿namespace SettingsBuilder.Models;
+﻿namespace SettingsBuilder.SettingsBuilder;
 
 public interface IFileModel
 {

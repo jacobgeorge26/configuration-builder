@@ -1,8 +1,7 @@
-﻿using Common.Models;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using SettingsBuilder.Models;
 
-namespace Common.Services;
+namespace SettingsBuilder.Services;
 
 public class ResultsService(IHostApplicationLifetime lifeTime, IOptions<Cheese> cheeseSettings) : IHostedService {
     public async Task StartAsync(CancellationToken token)

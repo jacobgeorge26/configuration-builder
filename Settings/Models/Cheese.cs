@@ -1,4 +1,4 @@
-﻿namespace Common.Models;
+﻿namespace SettingsBuilder.Models;
 
 public class Cheese : ISettings
 {

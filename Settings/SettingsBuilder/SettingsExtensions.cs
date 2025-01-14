@@ -1,12 +1,11 @@
 ﻿using System.IO.Abstractions;
 using System.Text.Json;
-using Common.Extensions;
-using Common.Helpers;
-using Common.Models;
-using Common.Services.Interfaces;
+using SettingsBuilder.Extensions;
+using SettingsBuilder.Helpers;
 using SettingsBuilder.Models;
+using SettingsBuilder.Services.Interfaces;
 
-namespace SettingsBuilder.Extensions;
+namespace SettingsBuilder.SettingsBuilder;
 
 public static class SettingsExtensions
 {

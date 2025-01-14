@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
-using Common.Models;
-using SettingsBuilder.Extensions;
 using SettingsBuilder.Models;
+using SettingsBuilder.SettingsBuilder;
 using SettingsBuilder.Tests.TestHelpers;
 using Xunit;
 

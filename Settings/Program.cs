@@ -1,6 +1,6 @@
 ﻿using System.IO.Abstractions;
-using Common.Services;
-using SettingsBuilder.Extensions;
+using SettingsBuilder.Services;
+using SettingsBuilder.SettingsBuilder;
 
 namespace SettingsBuilder;
 

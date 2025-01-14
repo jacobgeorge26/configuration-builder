@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Common.Models;
+namespace SettingsBuilder.Models;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Milk

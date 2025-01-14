@@ -1,6 +1,6 @@
-﻿using Common.Models;
+﻿using SettingsBuilder.Models;
 
-namespace SettingsBuilder.Models;
+namespace SettingsBuilder.SettingsBuilder;
 
 public class CheeseSettings : IFileModel, ISettings
 {
