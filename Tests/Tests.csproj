@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SettingsBuilder\SettingsBuilder.csproj" />
+      <ProjectReference Include="..\Settings\Settings.csproj" />
     </ItemGroup>
 
 </Project>
