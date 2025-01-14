@@ -1,3 +1,3 @@
 ﻿namespace SettingsBuilder.Models;
 
-public interface ISettings { }
+public interface IOverridable { }

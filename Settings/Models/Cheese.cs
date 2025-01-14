@@ -1,6 +1,6 @@
 ﻿namespace SettingsBuilder.Models;
 
-public class Cheese : ISettings
+public class Cheese : IOverridable
 {
     public string? Name { get; set; }
     

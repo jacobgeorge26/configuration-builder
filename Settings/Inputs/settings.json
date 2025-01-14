@@ -3,7 +3,7 @@
     "Name": "Cheddar",
     "Price": 4.99,
     "Milk": "Cow",
-    "Flavours": ["Mature", "Extra Mature" ],
+    "Flavours": ["Chili", "Truffle" ],
     "Origin": {
       "Name": "Snowdonia",
       "Location": "Wales"

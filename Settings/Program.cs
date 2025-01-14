@@ -1,4 +1,9 @@
 ﻿using System.IO.Abstractions;
+using System.Text;
+using System.Text.Json;
+using Microsoft.Extensions.Options;
+using SettingsBuilder.Helpers;
+using SettingsBuilder.Models;
 using SettingsBuilder.Services;
 using SettingsBuilder.SettingsBuilder;
 
@@ -8,16 +13,46 @@ sealed class Program
 {
     public static void Main(string[] args)
     {
+        SettingsBuilder(args);
+    }
+
+    private static void SettingsBuilder(string[] args)
+    {
         var builder = Host.CreateApplicationBuilder(args);
         
-        builder.LoadSettings(new FileSystem());
+        var settings = new CheeseSettings()
+            .AddJsonFile("../Common/Inputs/settings.json", new FileSystem())
+            .AddEmbeddedResource("embedded-settings.json", new AssemblyService())
+            .AddEnvironmentVariables(new EnvironmentService());
         
-        builder.Services.AddScoped<IConfiguration>(_ => builder.Configuration);
-
-        builder.Services.AddHostedService<ResultsService>();
-
+        var json = JsonSerializer.Serialize(settings, JsonHelpers.JsonSerializerOptions);
+        var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+        builder.Configuration.AddJsonStream(stream);
+        
+        LoadServices(builder);
         using var host = builder.Build();
+        
+        var result = host.Services.GetService<IOptions<Cheese>>();
+        ShowResults("Settings Builder", result?.Value);
+    }
+    
+    private static void LoadServices(IHostApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IConfiguration>(_ => builder.Configuration);
+        // There are two main methods available to set up the options values:
+        // 1 - services.AddOptions<OptionsClass>().BindConfiguration("configSection")
+        // 2 - services.Configure<OptionsClass>(configuration.GetSection("configSection))
+        // Both produce the same result, but 1 allows for more customizations
+        // https://stackoverflow.com/questions/55762813/what-is-the-difference-between-services-configure-and-services-addoptionst
+        builder.Services.AddOptions<Cheese>().BindConfiguration("Cheese");
+    }
 
-        host.Run();
+    private static void ShowResults(string jobName, object? result)
+    {
+        var json = JsonSerializer.Serialize(result, JsonHelpers.JsonSerializerOptions);
+        Console.WriteLine(jobName);
+        Console.WriteLine("---------------");
+        Console.WriteLine(json);
+        Console.WriteLine("---------------");
     }
 }

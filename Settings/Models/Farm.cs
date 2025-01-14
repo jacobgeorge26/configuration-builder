@@ -1,6 +1,6 @@
 ﻿namespace SettingsBuilder.Models;
 
-public class Farm : ISettings
+public class Farm : IOverridable
 {
     public string? Name { get; set; }
 

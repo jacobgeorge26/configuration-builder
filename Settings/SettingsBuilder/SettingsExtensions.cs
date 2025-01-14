@@ -10,7 +10,7 @@ namespace SettingsBuilder.SettingsBuilder;
 public static class SettingsExtensions
 {
     public static T Override<T>(this T settings, T? newSettings)
-        where T : ISettings
+        where T : IOverridable
     {
         foreach (var property in settings.GetType().GetProperties())
         {
@@ -20,10 +20,10 @@ public static class SettingsExtensions
             if (newValue is null)
                 continue;
 
-            if (typeof(ISettings).IsAssignableFrom(property.PropertyType))
+            if (typeof(IOverridable).IsAssignableFrom(property.PropertyType))
             {
-                var settingsValue = (value ?? Activator.CreateInstance(property.PropertyType)) as ISettings;
-                var newSettingsValue = settingsValue?.Override(newValue as ISettings);
+                var settingsValue = (value ?? Activator.CreateInstance(property.PropertyType)) as IOverridable;
+                var newSettingsValue = settingsValue?.Override(newValue as IOverridable);
                 property.SetValue(settings, newSettingsValue);
             }
             else
@@ -36,7 +36,7 @@ public static class SettingsExtensions
     }
     
     public static T AddJsonFile<T>(this T settings, string? path, IFileSystem fileSystem)
-        where T : IFileModel, ISettings
+        where T : ISettingsRoot, IOverridable
     {
         if(string.IsNullOrWhiteSpace(path))
             return settings;
@@ -47,7 +47,7 @@ public static class SettingsExtensions
     }
 
     public static T AddEmbeddedResource<T>(this T settings, string name, IAssemblyService assemblyService)
-        where T : IFileModel, ISettings
+        where T : ISettingsRoot, IOverridable
     {
         var json = assemblyService.GetEmbeddedResource(name);
         
@@ -55,7 +55,7 @@ public static class SettingsExtensions
     }
     
     public static T AddEnvironmentVariables<T>(this T settings, IEnvironmentService envService)
-        where T : IFileModel, ISettings
+        where T : ISettingsRoot, IOverridable
     {
         var envVars = envService.GetEnvironmentVariables();
 
@@ -70,7 +70,7 @@ public static class SettingsExtensions
     }
     
     private static T AddJson<T>(this T settings, string? json)
-        where T : IFileModel, ISettings
+        where T : ISettingsRoot, IOverridable
     {
         if(string.IsNullOrWhiteSpace(json))
             return settings;

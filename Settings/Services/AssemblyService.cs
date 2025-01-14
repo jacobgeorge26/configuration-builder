@@ -7,20 +7,11 @@ public class AssemblyService : IAssemblyService
 {
     public string? GetEmbeddedResource(string name)
     {
-        var entryAssembly = GetEntryAssembly();
-        var entryResource = GetResourceFromAssembly(entryAssembly, name);
-        
-        if(entryResource is not null)
-            return entryResource;
-        
-        var commonAssembly = GetCommonAssembly();
-        var commonResource = GetResourceFromAssembly(commonAssembly, name);
-        return commonResource;
+        var entryAssembly = GetAssembly();
+        return GetResourceFromAssembly(entryAssembly, name);
     }
     
-    public Assembly? GetEntryAssembly() => Assembly.GetEntryAssembly();
-    
-    public Assembly? GetCommonAssembly() => Assembly.GetExecutingAssembly();
+    public Assembly? GetAssembly() => Assembly.GetEntryAssembly();
     
     private static string? GetResourceFromAssembly(Assembly? assembly, string name)
     {

@@ -2,7 +2,7 @@
 
 namespace SettingsBuilder.SettingsBuilder;
 
-public class CheeseSettings : IFileModel, ISettings
+public class CheeseSettings : IOverridable, ISettingsRoot
 {
     public Cheese? Cheese { get; set; }
 }

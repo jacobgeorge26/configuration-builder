@@ -1,5 +1,5 @@
 ﻿namespace SettingsBuilder.SettingsBuilder;
 
-public interface IFileModel
+public interface ISettingsRoot
 {
 }
