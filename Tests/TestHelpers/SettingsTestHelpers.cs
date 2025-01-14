@@ -8,16 +8,16 @@ using Source.Services;
 
 namespace Tests.TestHelpers;
 
-internal class SettingsTestHelpers
+internal static class SettingsTestHelpers
 {
-    public static CheeseSettings CreateSettings(string name, decimal? price = null, List<string>? tests = null, Farm? origin = null) =>
+    public static CheeseSettings CreateSettings(string? name = null, decimal? price = null, List<string>? flavours = null, Farm? origin = null) =>
     new()
     {
         Cheese = new Cheese
         {
             Name = name,
             Price = price,
-            Flavours = tests,
+            Flavours = flavours,
             Origin = origin
         }
     };
@@ -28,7 +28,7 @@ internal class SettingsTestHelpers
         return SetupJsonSettings(json);
     }
 
-    public static (string path, MockFileSystem fileSystem) SetupJsonSettings(string json)
+    private static (string path, MockFileSystem fileSystem) SetupJsonSettings(string json)
     {
         var path = Path.Combine("folder", "settings.json");
         var fileSystem = new MockFileSystem();
@@ -42,7 +42,7 @@ internal class SettingsTestHelpers
         return SetupEmbeddedResourceSettings(json);
     }
 
-    public static (string resourceName, Assembly) SetupEmbeddedResourceSettings(string json)
+    private static (string resourceName, Assembly) SetupEmbeddedResourceSettings(string json)
     {
         const string assemblyName = "Flavours", resourceName = "embedded-settings.json";
 
@@ -72,7 +72,7 @@ internal class SettingsTestHelpers
         return SetupEnvVarSettings(envVars);
     }
 
-    public static IEnvironmentService SetupEnvVarSettings(Dictionary<string, string?> envVars)
+    private static IEnvironmentService SetupEnvVarSettings(Dictionary<string, string?> envVars)
     {
         var environmentServiceMock = new Mock<IEnvironmentService>();
         environmentServiceMock.Setup(x => x.GetEnvironmentVariables()).Returns(envVars);
