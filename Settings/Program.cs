@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
+using SettingsBuilder.ConfigurationBuilder;
 using SettingsBuilder.Helpers;
 using SettingsBuilder.Models;
 using SettingsBuilder.Services;
@@ -11,9 +12,17 @@ namespace SettingsBuilder;
 
 sealed class Program
 {
+    private const string JsonFile = "settings.json";
+    private const string EmbeddedFile = "embedded-settings.json";
+    
     public static void Main(string[] args)
     {
+        Console.WriteLine("---------------");
+        Console.WriteLine("Results");
+        Console.WriteLine("---------------");
+
         SettingsBuilder(args);
+        ConfigurationBuilder(args);
     }
 
     private static void SettingsBuilder(string[] args)
@@ -21,8 +30,8 @@ sealed class Program
         var builder = Host.CreateApplicationBuilder(args);
         
         var settings = new CheeseSettings()
-            .AddJsonFile("../Common/Inputs/settings.json", new FileSystem())
-            .AddEmbeddedResource("embedded-settings.json", new AssemblyService())
+            .AddJsonFile(JsonFile, new FileSystem())
+            .AddEmbeddedResource(EmbeddedFile, new AssemblyService())
             .AddEnvironmentVariables(new EnvironmentService());
         
         var json = JsonSerializer.Serialize(settings, JsonHelpers.JsonSerializerOptions);
@@ -34,6 +43,22 @@ sealed class Program
         
         var result = host.Services.GetService<IOptions<Cheese>>();
         ShowResults("Settings Builder", result?.Value);
+    }
+    
+    private static void ConfigurationBuilder(string[] args)
+    {
+        var builder = Host.CreateApplicationBuilder(args);
+        
+        builder.Configuration
+            .AddJsonFileOverride(JsonFile, new FileSystem())
+            .AddEmbeddedResource(EmbeddedFile, new AssemblyService())
+            .AddEnvironmentVariablesOverride(new EnvironmentService());
+        
+        LoadServices(builder);
+        using var host = builder.Build();
+        
+        var result = host.Services.GetService<IOptions<Cheese>>();
+        ShowResults("Configuration Builder", result?.Value);
     }
     
     private static void LoadServices(IHostApplicationBuilder builder)

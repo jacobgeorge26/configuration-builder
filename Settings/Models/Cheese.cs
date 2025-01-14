@@ -8,7 +8,9 @@ public class Cheese : IOverridable
     
     public Milk? Milk { get; set; }
     
+    public Origin? Origin { get; set; }
+    
     public List<string>? Flavours { get; set; }
-
-    public Farm? Origin { get; set; }
+    
+    public List<Note>? Notes { get; set; }
 }

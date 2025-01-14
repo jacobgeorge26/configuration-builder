@@ -4,6 +4,7 @@ using SettingsBuilder.Extensions;
 using SettingsBuilder.Helpers;
 using SettingsBuilder.Models;
 using SettingsBuilder.Services.Interfaces;
+using MsConfigurationBuilder = Microsoft.Extensions.Configuration.ConfigurationBuilder;
 
 namespace SettingsBuilder.SettingsBuilder;
 
@@ -59,7 +60,7 @@ public static class SettingsExtensions
     {
         var envVars = envService.GetEnvironmentVariables();
 
-        var config = new ConfigurationBuilder().AddInMemoryCollection(envVars).Build();
+        var config = new MsConfigurationBuilder().AddInMemoryCollection(envVars).Build();
         
         var newSettings = Activator.CreateInstance<T>();
         config.Bind(newSettings);

@@ -19,7 +19,7 @@ public class SettingsExtensionsTests
     [Theory, CombinatorialData]
     public void SettingsExtensions_StringProperty_Overrides(SettingsSource baseSource, SettingsSource overrideSource, [CombinatorialValues("Gouda", "")] string name)
     {
-        var baseSettings = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["item"], new Farm { Location = "UK" });
+        var baseSettings = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["item"], new Origin { Location = "UK" });
         var expected = SettingsTestHelpers.CreateSettings(name: name);
 
         var result = GetResult(overrideSource,  expected, GetResult(baseSource, baseSettings));
@@ -30,7 +30,7 @@ public class SettingsExtensionsTests
     [Theory, CombinatorialData]
     public void SettingsExtensions_NumberProperty_Overrides(SettingsSource baseSource, SettingsSource overrideSource, [CombinatorialValues(3.49, 0)] decimal price)
     {
-        var baseSettings = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["item"], new Farm { Location = "UK" });
+        var baseSettings = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["item"], new Origin { Location = "UK" });
         var expected = SettingsTestHelpers.CreateSettings(price: price);
 
         var result = GetResult(overrideSource,  expected, GetResult(baseSource, baseSettings));
@@ -41,7 +41,7 @@ public class SettingsExtensionsTests
     [Theory, CombinatorialData]
     public void SettingsExtensions_EnumerableProperty_Overrides(SettingsSource baseSource, SettingsSource overrideSource, [CombinatorialValues(0, 1, 2)] int itemCount)
     {
-        var baseSettings = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["item"], new Farm { Location = "UK" });
+        var baseSettings = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["item"], new Origin { Location = "UK" });
         var items = new List<string>();
         for (var i = 0; i < itemCount; i++)
         {
@@ -62,8 +62,8 @@ public class SettingsExtensionsTests
     [Theory, CombinatorialData]
     public void SettingsExtensions_ClassProperty_Overrides(SettingsSource baseSource, SettingsSource overrideSource, [CombinatorialValues("France", "")] string location)
     {
-        var baseSettings = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["item"], new Farm { Location = "UK" });
-        var expected = SettingsTestHelpers.CreateSettings(origin: new Farm { Location = location });
+        var baseSettings = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["item"], new Origin { Location = "UK" });
+        var expected = SettingsTestHelpers.CreateSettings(origin: new Origin { Location = location });
 
         var result = GetResult(overrideSource,  expected, GetResult(baseSource, baseSettings));
         
@@ -73,7 +73,7 @@ public class SettingsExtensionsTests
     [Theory, CombinatorialData]
     public void SettingsExtensions_NullValueOverride_DoesNotOverride(SettingsSource baseSource, SettingsSource overrideSource)
     {
-        var expected = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["json"], new Farm{ Location = "UK"});
+        var expected = SettingsTestHelpers.CreateSettings("Cheddar", (decimal?)0.99, ["json"], new Origin{ Location = "UK"});
         
         var result = GetResult(overrideSource,  new CheeseSettings(), GetResult(baseSource, expected));
         

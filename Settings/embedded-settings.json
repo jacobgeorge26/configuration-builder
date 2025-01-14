@@ -2,10 +2,11 @@
   "Cheese": {
     "Name": "Cambozola",
     "Milk": 0,
-    "Flavours": [],
     "Origin": {
       "Location": "Germany",
-      "Name": ""
-    }
+      "Company": ""
+    },
+    "Flavours": [],
+    "Notes": []
   }
 }

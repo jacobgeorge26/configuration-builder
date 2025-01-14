@@ -9,7 +9,7 @@ namespace SettingsBuilder.Tests.TestHelpers;
 
 internal static class SettingsTestHelpers
 {
-    public static CheeseSettings CreateSettings(string? name = null, decimal? price = null, List<string>? flavours = null, Farm? origin = null) =>
+    public static CheeseSettings CreateSettings(string? name = null, decimal? price = null, List<string>? flavours = null, Origin? origin = null) =>
     new()
     {
         Cheese = new Cheese

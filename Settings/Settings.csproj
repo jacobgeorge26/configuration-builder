@@ -21,10 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="Inputs\settings.json" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Include="Inputs\embedded-settings.json" />
+      <EmbeddedResource Include="embedded-settings.json" />
     </ItemGroup>
 </Project>

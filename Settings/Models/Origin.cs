@@ -1,8 +1,8 @@
 ﻿namespace SettingsBuilder.Models;
 
-public class Farm : IOverridable
+public class Origin : IOverridable
 {
-    public string? Name { get; set; }
-
     public string? Location { get; set; }
+    
+    public string? Company { get; set; }
 }
