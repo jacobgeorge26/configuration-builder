@@ -1,5 +1,8 @@
-﻿namespace Source.Models.Enums;
+﻿using System.Text.Json.Serialization;
 
+namespace Source.Models.Enums;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Milk
 {
     Cow = 0,

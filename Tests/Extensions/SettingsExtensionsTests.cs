@@ -1,5 +1,7 @@
-﻿using Source.Extensions;
+﻿using System.Text.Json;
+using Source.Extensions;
 using Source.Models.CheeseModels;
+using Source.Models.Enums;
 using Tests.TestHelpers;
 using Xunit;
 
@@ -81,6 +83,46 @@ public class SettingsExtensionsTests
         Assert.Equal(expected.Cheese?.Price, result.Cheese?.Price);
         Assert.Equal(expected.Cheese?.Flavours, result.Cheese?.Flavours);
         Assert.Equal(expected.Cheese?.Origin?.Location, result.Cheese?.Origin?.Location);
+    }
+        
+    [Theory, CombinatorialData]
+    public void SettingsExtensions_SupportsEnums(SettingsSource source, [CombinatorialValues("Cow", "0")] string value)
+    {
+        Assert.True(Enum.TryParse(value, out Milk expected));
+    
+        var settings = new CheeseSettings
+        {
+            Cheese = new Cheese { Milk = expected }
+        };
+        
+        var json = JsonSerializer.Serialize(settings)
+            .Replace(expected.ToString(), value);
+        
+        Func<CheeseSettings> func = source switch
+        {
+            SettingsSource.JsonFile => () =>
+            {
+                var (path, fileSystem) = SettingsTestHelpers.SetupJsonSettings(json);
+                return  new CheeseSettings().AddJsonFile(path, fileSystem);
+            },
+            SettingsSource.EmbeddedResource => () =>
+            {
+                var (name, assembly) = SettingsTestHelpers.SetupEmbeddedResourceSettings(json);
+                return new CheeseSettings().AddEmbeddedResource(name, assembly);   
+            },
+            SettingsSource.EnvironmentVariable => () =>
+            {
+                var envService = SettingsTestHelpers.SetupEnvVarSettings(new Dictionary<string, string?>
+                    {
+                        {$"{nameof(CheeseSettings.Cheese)}:{nameof(CheeseSettings.Cheese.Milk)}", value}
+                    });
+        
+                return new CheeseSettings().AddEnvironmentVariables(envService);
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+        };
+    
+        Assert.Equal(expected, func.Invoke().Cheese?.Milk);
     }
     
     private static CheeseSettings GetResult(SettingsSource source, CheeseSettings expected, CheeseSettings? baseSettings = null)

@@ -28,7 +28,7 @@ internal static class SettingsTestHelpers
         return SetupJsonSettings(json);
     }
 
-    private static (string path, MockFileSystem fileSystem) SetupJsonSettings(string json)
+    public static (string path, MockFileSystem fileSystem) SetupJsonSettings(string json)
     {
         var path = Path.Combine("folder", "settings.json");
         var fileSystem = new MockFileSystem();
@@ -42,7 +42,7 @@ internal static class SettingsTestHelpers
         return SetupEmbeddedResourceSettings(json);
     }
 
-    private static (string resourceName, Assembly) SetupEmbeddedResourceSettings(string json)
+    public static (string resourceName, Assembly) SetupEmbeddedResourceSettings(string json)
     {
         const string assemblyName = "Flavours", resourceName = "embedded-settings.json";
 
@@ -72,7 +72,7 @@ internal static class SettingsTestHelpers
         return SetupEnvVarSettings(envVars);
     }
 
-    private static IEnvironmentService SetupEnvVarSettings(Dictionary<string, string?> envVars)
+    public static IEnvironmentService SetupEnvVarSettings(Dictionary<string, string?> envVars)
     {
         var environmentServiceMock = new Mock<IEnvironmentService>();
         environmentServiceMock.Setup(x => x.GetEnvironmentVariables()).Returns(envVars);

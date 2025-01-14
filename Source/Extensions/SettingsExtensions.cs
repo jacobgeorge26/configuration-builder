@@ -10,7 +10,7 @@ namespace Source.Extensions;
 public static class SettingsExtensions
 {
     public static T Override<T>(this T settings, T? newSettings)
-    where T : ISettings
+        where T : ISettings
     {
         foreach (var property in settings.GetType().GetProperties())
         {
