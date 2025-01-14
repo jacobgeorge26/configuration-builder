@@ -9,8 +9,34 @@ namespace Source.Extensions;
 
 public static class SettingsExtensions
 {
+    public static T Override<T>(this T settings, T? newSettings)
+    where T : ISettings
+    {
+        foreach (var property in settings.GetType().GetProperties())
+        {
+            var value = property.GetValue(settings);
+            var newValue = property.GetValue(newSettings);
+            
+            if (newValue is null)
+                continue;
+
+            if (typeof(ISettings).IsAssignableFrom(property.PropertyType))
+            {
+                var settingsValue = (value ?? Activator.CreateInstance(property.PropertyType)) as ISettings;
+                var newSettingsValue = settingsValue?.Override(newValue as ISettings);
+                property.SetValue(settings, newSettingsValue);
+            }
+            else
+            {
+                property.SetValue(settings, newValue);
+            }
+        }
+        
+        return settings;
+    }
+    
     public static T AddJsonFile<T>(this T settings, string? path, IFileSystem fileSystem)
-        where T : IFileModel, IOverridable<T>
+        where T : IFileModel, ISettings
     {
         if(string.IsNullOrWhiteSpace(path))
             return settings;
@@ -21,7 +47,7 @@ public static class SettingsExtensions
     }
 
     public static T AddEmbeddedResource<T>(this T settings, string name, Assembly? assembly)
-        where T : IFileModel, IOverridable<T>
+        where T : IFileModel, ISettings
     {
         var json = GetJsonFromEmbeddedResource(name, assembly);
         
@@ -29,7 +55,7 @@ public static class SettingsExtensions
     }
     
     public static T AddEnvironmentVariables<T>(this T settings, IEnvironmentService envService)
-        where T : IFileModel, IOverridable<T>
+        where T : IFileModel, ISettings
     {
         var envVars = envService.GetEnvironmentVariables();
 
@@ -44,7 +70,7 @@ public static class SettingsExtensions
     }
     
     private static T AddJson<T>(this T settings, string? json)
-        where T : IFileModel, IOverridable<T>
+        where T : IFileModel, ISettings
     {
         if(string.IsNullOrWhiteSpace(json))
             return settings;

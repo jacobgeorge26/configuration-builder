@@ -14,8 +14,6 @@ public class EnvironmentService : IEnvironmentService
             if(key is null)
                 continue;
             
-            key = key.Replace("__", ":");
-            
             dict.Add(key, entry.Value?.ToString());
         }
         
